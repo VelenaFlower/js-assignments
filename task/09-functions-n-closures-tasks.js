@@ -2,7 +2,7 @@
 
 /**********************************************************************************************
  *                                                                                            *
- * Plese read the following tutorial before implementing tasks:                               *
+ * Please read the following tutorial before implementing tasks:                              *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions                    *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function  *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments      *
@@ -26,9 +26,10 @@
  *
  */
 function getComposition(f,g) {
-    throw new Error('Not implemented');
+    return function() {
+        return f(g.apply(null, arguments));
+    }
 }
-
 
 /**
  * Returns the math power function with the specified exponent
@@ -47,9 +48,8 @@ function getComposition(f,g) {
  *
  */
 function getPowerFunction(exponent) {
-    throw new Error('Not implemented');
+    return  (number) => Math.pow(number, exponent);
 }
-
 
 /**
  * Returns the polynom function of one argument based on specified coefficients.
@@ -65,9 +65,9 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
-    throw new Error('Not implemented');
+    let args = arguments;
+    return (x) => Array.prototype.reduce.call(args, (res, curr, index, array) => res + curr * Math.pow(x, array.length - 1 - index), 0);
 }
-
 
 /**
  * Memoizes passed function and returns function
@@ -84,9 +84,14 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-    throw new Error('Not implemented');
+    let mem;
+    return  () => {
+        if (mem === undefined) {
+            mem = func.apply(null, arguments);
+        }
+        return mem;
+    }
 }
-
 
 /**
  * Returns the function trying to call the passed function and if it throws,
@@ -104,9 +109,20 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-    throw new Error('Not implemented');
+    return () => {
+        let i = 0;
+        let tmp;
+        while (i <= attempts) {
+            try {
+                tmp = func.apply(null, arguments);
+                return tmp;
+            } catch (e) {
+                i++;
+            }
+        }
+        return i;
+    };
 }
-
 
 /**
  * Returns the logging wrapper for the specified method,
@@ -132,9 +148,16 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-    throw new Error('Not implemented');
+    return function() {
+        let res;
+        let args = Array.prototype.reduce.call(arguments, (res, curr) =>
+            res === '' ? res += JSON.stringify(curr) : res += ',' + JSON.stringify(curr), '');
+        logFunc(func.name + "(" + args + ") starts");
+        res = func.apply(null, arguments);
+        logFunc(func.name + "(" + args + ") ends");
+        return res;
+    };
 }
-
 
 /**
  * Return the function with partial applied arguments
@@ -150,9 +173,11 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-    throw new Error('Not implemented');
+    let applyArgs = Array.prototype.slice.call(arguments, 1);
+    return function() {
+        return fn.apply(null, Array.prototype.concat(applyArgs, Array.prototype.slice.call(arguments)));
+    };
 }
-
 
 /**
  * Returns the id generator function that returns next integer starting from specified number every time when invoking.
@@ -171,7 +196,8 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    let count = startFrom;
+    return () => count++;
 }
 
 

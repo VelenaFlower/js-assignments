@@ -37,7 +37,6 @@ function parseBankAccount(bankAccount) {
     throw new Error('Not implemented');
 }
 
-
 /**
  * Returns the string, but with line breaks inserted at just the right places to make sure that no line is longer than the specified column number.
  * Lines can be broken at word boundaries only.
@@ -63,9 +62,20 @@ function parseBankAccount(bankAccount) {
  *                                                                                                'characters.'
  */
 function* wrapText(text, columns) {
-    throw new Error('Not implemented');
+    let words = text.split(' ');
+    let str = '';
+    for (let i = 0; i < words.length; i++) {
+        if (str.length + words[i].length <= columns) {
+            str += words[i] + " ";
+        } else {
+            yield str.trim();
+            str = words[i] + " ";
+        }
+    }
+    if (str !== '') {
+        yield str.trim();
+    }
 }
-
 
 /**
  * Returns the rank of the specified poker hand.
@@ -97,12 +107,11 @@ const PokerRank = {
     TwoPairs: 2,
     OnePair: 1,
     HighCard: 0
-}
+};
 
 function getPokerHandRank(hand) {
     throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the rectangles sequence of specified figure.

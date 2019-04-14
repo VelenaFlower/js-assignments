@@ -31,7 +31,7 @@
  * @return {RegExp}
  */
 function getRegexForGuid() {
-   throw new Error('Not implemented');
+    return /^\{[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}\}$/;
 }
 
 
@@ -53,9 +53,8 @@ function getRegexForGuid() {
  *
  */
 function getRegexForPitSpot() {
-   throw new Error('Not implemented');
+    return /p.t/;
 }
-
 
 /**
  * Returns the regexp that matches all IPv4 strings in
@@ -72,9 +71,8 @@ function getRegexForPitSpot() {
  * @return {RegExp}
  */
 function getRegexForIPv4() {
-   throw new Error('Not implemented');
+    return /^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2}).){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})$/;
 }
-
 
 /**
  * Returns the regexp that matches all SSN (Social Security Number) codes in
@@ -91,9 +89,8 @@ function getRegexForIPv4() {
  * @return {RegExp}
  */
 function getRegexForSSN() {
-   throw new Error('Not implemented');
+    return /^(?!(0){3})[0-9]{3}-(?!(0){2})[0-9]{2}-(?!(0){4})[0-9]{4}$/;
 }
-
 
 /**
  * Returns the password validator regex.
